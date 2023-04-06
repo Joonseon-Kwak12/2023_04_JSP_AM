@@ -17,6 +17,7 @@ public class HomeMainServlet3 extends HttpServlet {
     	
     	String inputtedDan = request.getParameter("dan");
     	String inputtedLimit = request.getParameter("limit");
+    	String inputtedColor = request.getParameter("color");
     	
     	if (inputtedDan == null) {
     		inputtedDan = "1";
@@ -24,14 +25,17 @@ public class HomeMainServlet3 extends HttpServlet {
     	if (inputtedLimit == null) {
     		inputtedLimit = "9";
     	}
+    	if (inputtedColor == null) {
+    		inputtedColor = "black";
+    	}
     	
     	int dan = Integer.parseInt(inputtedDan);
     	int limit = Integer.parseInt(inputtedLimit);
     	
-		response.getWriter().append(String.format("==%d단==<br>", dan));
+		response.getWriter().append(String.format("<div style = \"color: %s;\">==%d단==</div>", inputtedColor, dan));
 		
-		for(int i = 1; i <= limit; i ++) {
-			response.getWriter().append(String.format("%d * %d = %d<br>", dan, i, dan * i));
+		for(int i = 1; i <= limit; i++) {
+			response.getWriter().append(String.format("<div style = \"color: %s;\">%d * %d = %d</div>", inputtedColor, dan, i, dan * i));
 		}
 	}
 }
