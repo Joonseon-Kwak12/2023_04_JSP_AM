@@ -15,8 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.KoreaIT.java.jam.util.DBUtil;
 
-@WebServlet("/article/list")
-public class ArticleListServlet extends HttpServlet {
+/**
+ * Servlet implementation class ArticleDetailServlet
+ */
+@WebServlet("/article/detail")
+public class ArticleDetailServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -40,14 +43,17 @@ public class ArticleListServlet extends HttpServlet {
 			conn = DriverManager.getConnection(url, user, password);
 			
 			DBUtil dbUtil = new DBUtil(request, response);
-			String sql = "SELECT * FROM article;";
 			
-			List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
+			int id = Integer.parseInt(request.getParameter("id"));
+//			String sql = "SELECT * FROM article WHERE id = " + id +";";
+			String sql = String.format("SELECT * FROM article WHERE id = %d", id);
 			
-			response.getWriter().append(articleRows.toString());
+			Map<String, Object> articleRow = dbUtil.selectRow(conn, sql);
 			
-			request.setAttribute("articleRows", articleRows);
-			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
+			response.getWriter().append(articleRow.toString());
+			
+			request.setAttribute("articleRow", articleRow);
+			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
