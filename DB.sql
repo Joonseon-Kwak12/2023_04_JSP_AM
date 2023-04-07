@@ -31,3 +31,10 @@ INSERT INTO article
 SET regDate = NOW(),
 title = '제목 4',
 `body` = '내용 4';
+
+INSERT INTO article
+SET regDate = NOW(),
+title = '제목 5',
+`body` = '내용 5';
+
+SELECT * FROM article;

@@ -18,18 +18,27 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getA
 	</div>
 
 	<h1>게시물 리스트</h1>
-	<ul>
+
+	<table style="border-collapse: collapse; border-color: green" border="2px">
+		<tr>
+			<th>번호</th>
+			<th>작성날짜</th>
+			<th>제목</th>
+			<th>삭제</th>
+		</tr>
+
 		<%
 		for (Map<String, Object> articleRow : articleRows) {
 		%>
-		<li><a href="detail?id=<%=articleRow.get("id")%>">
-				<%=articleRow.get("id")%>번,
-				<%=articleRow.get("regDate")%>,
-				<%=articleRow.get("title")%>,
-				<%=articleRow.get("body")%></a></li>
+		<tr style = "text-align: center;">
+			<th><%=articleRow.get("id")%></th>
+			<th><%=articleRow.get("regDate")%></th>
+			<th><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></th>
+			<th><a href="doDelete?id=<%=articleRow.get("id")%>">del</a></th>
+		</tr>
 		<%
 		}
 		%>
-	</ul>
+	</table>
 </body>
 </html>
