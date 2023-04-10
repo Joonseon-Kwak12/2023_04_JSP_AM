@@ -38,3 +38,7 @@ title = '제목 5',
 `body` = '내용 5';
 
 SELECT * FROM article;
+
+INSERT INTO article (regDate, title, `body`)
+SELECT NOW(), RAND(), RAND()
+FROM article;

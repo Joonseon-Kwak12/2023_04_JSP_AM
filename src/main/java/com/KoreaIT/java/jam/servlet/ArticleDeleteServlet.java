@@ -28,7 +28,7 @@ public class ArticleDeleteServlet extends HttpServlet {
 		Connection conn = null;
 		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			System.out.println("예외: 클래스가 없습니다.");
 			System.out.println("프로그램을 종료합니다.");
