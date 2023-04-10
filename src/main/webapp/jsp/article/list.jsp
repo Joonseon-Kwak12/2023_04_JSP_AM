@@ -7,6 +7,8 @@
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
 int cPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
+int itemsInAPage = (int) request.getAttribute("itemsInAPage");
+int pageDiv = (int) Math.ceil((double)cPage / itemsInAPage);
 %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +20,9 @@ int totalPage = (int) request.getAttribute("totalPage");
 	<div>
 		<a href="../home/main">메인페이지로 이동</a>
 	</div>
+	<div>
+		<a href="write">글쓰기</a>
+	</div>
 
 	<h1>게시물 리스트</h1>
 
@@ -27,6 +32,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<th>번호</th>
 			<th>작성날짜</th>
 			<th>제목</th>
+			<th>수정</th>
 			<th>삭제</th>
 		</tr>
 
@@ -37,7 +43,8 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<th><%=articleRow.get("id")%></th>
 			<th><%=articleRow.get("regDate")%></th>
 			<th><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></th>
-			<th><a href="doDelete?id=<%=articleRow.get("id")%>">del</a></th>
+			<th><a href="modify?id=<%=articleRow.get("id")%>">수정</a></th>
+			<th><a href="doDelete?id=<%=articleRow.get("id")%>">삭제</a></th>
 		</tr>
 		<%
 		}
@@ -47,6 +54,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 	<style type="text/css">
 	.page > a {
 		color: black;
+		text-decoration: none;
 	}
 	.page > a.red {
 		color: red;
@@ -54,13 +62,15 @@ int totalPage = (int) request.getAttribute("totalPage");
 	</style>
 	
 	<div class="page">
+		<a href="list?page=<%=(pageDiv-1)*itemsInAPage%>"><</a>
 		<%
-		for (int i = 1; i <= totalPage; i++) {
+		for (int i = pageDiv*itemsInAPage-9; i <= pageDiv*itemsInAPage; i++) {
 		%>
 		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
 		<%
 		}
 		%>
+		<a href="list?page=<%=(pageDiv+1)*itemsInAPage-9%>">></a>
 	</div>
 
 </body>

@@ -15,7 +15,7 @@ import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
 @WebServlet("/article/doDelete")
-public class ArticleDeleteServlet extends HttpServlet {
+public class ArticleDoDeleteServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
