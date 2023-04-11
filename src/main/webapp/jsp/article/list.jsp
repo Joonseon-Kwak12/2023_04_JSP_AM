@@ -63,23 +63,37 @@ int finalPageDiv = (int) Math.ceil((double)totalPage / itemsInAPage);
 	</style>
 
 	<div class="page">
-		<a href="list?page=<%=(cPageDiv - 1) * itemsInAPage%>"><</a>
 		<%
-		if (cPageDiv == finalPageDiv) {
-			for (int i = (cPageDiv - 1) * itemsInAPage + 1; i <= totalPage; i++) {
+		if (cPage > 1) {
+		%>
+		<a href = "list?page=1">◀◀</a>
+		<%
+		}
+		int pageSize = 5;
+		int from = cPage - pageSize;
+		if (from < 1) {
+			from =1;
+		}
+		
+		int end = cPage + pageSize;
+		if (end > totalPage) {
+			end = totalPage;
+		}
+		
+		for (int i = from; i <= end; i++) {
 		%>
 		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
 		<%
 		}
-		} else {
-		for (int i = (cPageDiv - 1) * itemsInAPage + 1; i <= cPageDiv * itemsInAPage; i++) {
 		%>
-		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
+		
+		<%
+		if (cPage < totalPage) {
+		%>
+		<a href="list?page=<%=totalPage%>">▶▶</a>
 		<%
 		}
-		}
 		%>
-		<a href="list?page=<%=(cPageDiv+1)*itemsInAPage-9%>">></a>
 	</div>
 </body>
 </html>
