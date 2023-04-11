@@ -7,9 +7,6 @@
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
 int cPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
-int itemsInAPage = (int) request.getAttribute("itemsInAPage");
-int cPageDiv = (int) Math.ceil((double)cPage / itemsInAPage);
-int finalPageDiv = (int) Math.ceil((double)totalPage / itemsInAPage);
 %>
 <!DOCTYPE html>
 <html>
