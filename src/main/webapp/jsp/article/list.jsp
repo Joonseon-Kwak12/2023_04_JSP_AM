@@ -8,7 +8,8 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getA
 int cPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
 int itemsInAPage = (int) request.getAttribute("itemsInAPage");
-int pageDiv = (int) Math.ceil((double)cPage / itemsInAPage);
+int cPageDiv = (int) Math.ceil((double)cPage / itemsInAPage);
+int finalPageDiv = (int) Math.ceil((double)totalPage / itemsInAPage);
 %>
 <!DOCTYPE html>
 <html>
@@ -60,18 +61,25 @@ int pageDiv = (int) Math.ceil((double)cPage / itemsInAPage);
 		color: red;
 	}
 	</style>
-	
+
 	<div class="page">
-		<a href="list?page=<%=(pageDiv-1)*itemsInAPage%>"><</a>
+		<a href="list?page=<%=(cPageDiv - 1) * itemsInAPage%>"><</a>
 		<%
-		for (int i = pageDiv*itemsInAPage-9; i <= pageDiv*itemsInAPage; i++) {
+		if (cPageDiv == finalPageDiv) {
+			for (int i = (cPageDiv - 1) * itemsInAPage + 1; i <= totalPage; i++) {
 		%>
 		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
 		<%
 		}
+		} else {
+		for (int i = (cPageDiv - 1) * itemsInAPage + 1; i <= cPageDiv * itemsInAPage; i++) {
 		%>
-		<a href="list?page=<%=(pageDiv+1)*itemsInAPage-9%>">></a>
+		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
+		<%
+		}
+		}
+		%>
+		<a href="list?page=<%=(cPageDiv+1)*itemsInAPage-9%>">></a>
 	</div>
-
 </body>
 </html>
