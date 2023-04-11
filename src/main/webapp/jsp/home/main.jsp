@@ -10,6 +10,7 @@
 	<h1>MAIN</h1>
 	<ul>
 		<li><a href="../article/list">게시물 리스트</a></li>
+		<li><a href="../member/join">회원 가입</a></li>
 	</ul>
 </body>
 </html>
