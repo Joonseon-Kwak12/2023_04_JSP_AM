@@ -53,8 +53,18 @@
 				return;
 			}
 			
-			JoinFrom__submitDone = true;
+			JoinForm__submitDone = true;
 			form.submit();
+		}
+		
+		function CheckDupId() {
+			var loginId = document.getElementById("loginId").value;
+			if(loginId) {
+				url = "/checkDupId?loginId="+loginId;
+				window.open(url, "_blank", "width=400px,height=200px");	
+			} else {
+				alert("아이디를 입력하세요.");
+			}
 		}
 	</script>
 
@@ -64,13 +74,14 @@
 	<form method="post" action="doJoin"
 	onsubmit="JoinForm__submit(this); return false;">
 		<div>
-			로그인 아이디: <input autocomplete="off" type="text" placeholder="아이디를 입력해주세요." name="loginId"/>
+			로그인 아이디: <input autocomplete="off" type="text" placeholder="아이디를 입력해주세요." name="loginId"  id="loginId"/>
+			<button type="button" onclick="CheckDupId()">아이디 중복 검사</button>
 		</div>
 		<div>
-			로그인 비밀번호: <input autocomplete="off" type="text" placeholder="비밀번호를 입력해주세요." name="loginPw" id="pw1"/>
+			로그인 비밀번호: <input autocomplete="off" type="text" placeholder="비밀번호를 입력해주세요." name="loginPw"/>
 		</div>
 		<div>
-			로그인 비밀번호 확인: <input autocomplete="off" type="text" placeholder="비밀번호 확인을 입력해주세요." name="loginPwConfirm" id="pw2"/>
+			로그인 비밀번호 확인: <input autocomplete="off" type="text" placeholder="비밀번호 확인을 입력해주세요." name="loginPwConfirm"/>
 		</div>
 		<div>
 			이름: <input autocomplete="off" type="text" placeholder="이름을 입력해주세요." name="name"/>

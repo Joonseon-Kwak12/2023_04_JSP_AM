@@ -12,13 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.KoreaIT.java.jam.config.Config;
-import com.KoreaIT.java.jam.exception.SQLErrorException;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/article/doDelete")
-public class ArticleDoDeleteServlet extends HttpServlet {
-	
+@WebServlet("/checkDupId")
+public class MemberCheckDupId extends HttpServlet {
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setContentType("text/html; charset=UTF-8");
@@ -37,22 +36,20 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
-			response.getWriter().append("Success!!");
+			int loginId = Integer.parseInt(request.getParameter("loginId"));
 
-			int id = Integer.parseInt(request.getParameter("id"));
+			SecSql sql = SecSql.from("SELECT count(*)");
+			sql.append("FROM `member`");
+			sql.append("WHERE loginId = ?;", loginId);
 
-			SecSql sql = SecSql.from("DELETE");
-			sql.append("FROM article");
-			sql.append("WHERE id = ?;", id);
-
-			DBUtil.delete(conn, sql);
+			if(!DBUtil.selectRow(conn, sql).isEmpty()) {
+				response.
+			}
 
 			response.getWriter().append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list'); </script>", id));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (SQLErrorException e) {
-			e.getOrigin().printStackTrace();
 		} finally {
 			try {
 				if (conn != null && !conn.isClosed()) {
