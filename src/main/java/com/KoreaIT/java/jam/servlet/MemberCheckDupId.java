@@ -15,7 +15,7 @@ import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/checkDupId")
+@WebServlet("/member/checkDupId")
 public class MemberCheckDupId extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,11 +42,10 @@ public class MemberCheckDupId extends HttpServlet {
 			sql.append("FROM `member`");
 			sql.append("WHERE loginId = ?;", loginId);
 
-			if(!DBUtil.selectRow(conn, sql).isEmpty()) {
-				response.
+			if(DBUtil.selectRowIntValue(conn, sql)!=0) {
+				response.getWriter().append(String.format("<script>alert('%s는 이미 사용중입니다.'); location.replace('../member/join');</script>", loginId));
+				return;
 			}
-
-			response.getWriter().append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list'); </script>", id));
 
 		} catch (SQLException e) {
 			e.printStackTrace();

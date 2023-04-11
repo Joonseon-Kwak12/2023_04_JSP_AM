@@ -60,7 +60,7 @@
 		function CheckDupId() {
 			var loginId = document.getElementById("loginId").value;
 			if(loginId) {
-				url = "/checkDupId?loginId="+loginId;
+				url = "../member/checkDupId?loginId="+loginId;
 				window.open(url, "_blank", "width=400px,height=200px");	
 			} else {
 				alert("아이디를 입력하세요.");
