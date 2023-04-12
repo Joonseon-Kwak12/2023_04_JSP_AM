@@ -2,10 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-session = request.getSession();
-boolean isLogined = (boolean)session.getAttribute("isLogined");
-int loginedMemberId = (int)session.getAttribute("loginedMemberId"); // request가 아니라 session에서 가져오면 에러
-String loginedMemberName = (String)session.getAttribute("loginedMemberName");
+// session = request.getSession();
+boolean isLogined = (boolean)request.getAttribute("isLogined");
+int loginedMemberId = (int)request.getAttribute("loginedMemberId"); // request가 아니라 session에서 가져오면 에러
+String loginedMemberName = (String)request.getAttribute("loginedMemberName");
 %>
 
 <!-- <!DOCTYPE html> html 파일이 아님

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.KoreaIT.java.jam.config.Config;
+import com.KoreaIT.java.jam.controller.ArticleController;
 import com.KoreaIT.java.jam.exception.SQLErrorException;
-import com.KoreaIT.java.jam.util.DBUtil;
-import com.KoreaIT.java.jam.util.SecSql;
 
 /**
  * Servlet implementation class DispatcherServlet
@@ -28,26 +26,6 @@ public class DispatcherServlet extends HttpServlet {
 		
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		
-		String requestURI = request.getRequestURI();
-		
-		System.out.println(requestURI);
-		
-		String[] requestURIBits = requestURI.split("/");
-		// ~~/s/article/list
-		// [0]/[1]/[2]/[3]
-		
-		if (requestURIBits.length < 5) {
-			response.getWriter().append("올바른 요청이 아닙니다.");
-			return;
-		}
-		
-		String controllerName = requestURIBits[3];
-		String actionMethodName = requestURIBits[4];
-		
-		if(controllerName.equals("article")) {
-			ArticleController articleController = new ArticleController();
-		}
 
 		// DB 연결
 		Connection conn = null;
@@ -62,6 +40,32 @@ public class DispatcherServlet extends HttpServlet {
 
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
+			
+			//모든 요청에 응답하기 전에 무조건 해야함
+			
+			String requestURI = request.getRequestURI();
+			
+			System.out.println(requestURI);
+			
+			String[] requestURIBits = requestURI.split("/");
+			// ~~/s/article/list
+			// [0]/[1]/[2]/[3]
+			
+			if (requestURIBits.length < 5) {
+				response.getWriter().append("올바른 요청이 아닙니다.");
+				return;
+			}
+			
+			String controllerName = requestURIBits[3];
+			String actionMethodName = requestURIBits[4];
+			
+			if(controllerName.equals("article")) {
+				ArticleController articleController = new ArticleController(request, response, conn);
+				
+				if (actionMethodName.equals("list")) {
+					
+				}
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();

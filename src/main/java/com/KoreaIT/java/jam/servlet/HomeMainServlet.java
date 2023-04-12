@@ -22,15 +22,19 @@ public class HomeMainServlet extends HttpServlet {
 		// topbar.jspf 필요 부분 시작
 		HttpSession session = request.getSession();
 		
-//		boolean isLogined = false;
-//		int loginedMemberId = -1;
-//		Map<String, Object> loginedMemberRow = null;
-//		
-//		if(session.getAttribute("loginedMemberId") != null) {
-//			isLogined = true;
-//			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-//			loginedMemberRow = (Map<String, Object>) session.getAttribute("loginedMemberRow");
-//		}
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		Map<String, Object> loginedMemberRow = null;
+		
+		if(session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+			loginedMemberRow = (Map<String, Object>) session.getAttribute("loginedMemberRow");
+		}
+		
+		request.setAttribute("isLogined", isLogined);
+		request.setAttribute("loginedMemberId", loginedMemberId);
+		request.setAttribute("loginedMemberRow", loginedMemberRow);
 		
 //		if((boolean)session.getAttribute("isLogined") == true) {
 //		request.setAttribute("isLogined", (boolean)session.getAttribute("isLogined"));
