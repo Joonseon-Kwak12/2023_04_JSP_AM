@@ -38,13 +38,15 @@ public class ArticleDoWriteServlet extends HttpServlet {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 			
 			request.setCharacterEncoding("UTF-8");
+			int memberId = (int) request.getSession().getAttribute("loginedMemberId");
 			
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			SecSql sql = SecSql.from("INSERT INTO article");
 			sql.append("SET regDate = NOW(),");
 			sql.append("title = ?,", title);
-			sql.append("`body` = ?;", body);
+			sql.append("`body` = ?,", body);
+			sql.append("memberId = ?;", memberId);
 			int id = DBUtil.insert(conn, sql);
 			response.getWriter()
 					.append(String.format("<script>alert('%d번 글이 생성되었습니다'); location.replace('list');</script>", id));

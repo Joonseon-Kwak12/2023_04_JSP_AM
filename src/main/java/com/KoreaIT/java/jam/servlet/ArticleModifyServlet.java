@@ -50,6 +50,13 @@ public class ArticleModifyServlet extends HttpServlet {
 			response.getWriter().append(articleRow.toString());
 
 			request.setAttribute("articleRow", articleRow);
+			
+			if ((int)request.getSession().getAttribute("loginedMemberId") != (int)articleRow.get("memberId")) {
+				response.getWriter()
+				.append(String.format("<script>alert('작성자만 수정할 수 있습니다.'); location.replace('list');</script>"));
+				return;
+			}
+			
 			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 
 		} catch (SQLException e) {

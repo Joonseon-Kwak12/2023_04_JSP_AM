@@ -30,10 +30,11 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<th>번호</th>
 			<th>작성날짜</th>
 			<th>제목</th>
+			<th>작성자</th>
 			<th>수정</th>
 			<th>삭제</th>
 		</tr>
-
+		
 		<%
 		for (Map<String, Object> articleRow : articleRows) {
 		%>
@@ -41,6 +42,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<th><%=articleRow.get("id")%></th>
 			<th><%=articleRow.get("regDate")%></th>
 			<th><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></th>
+			<th><%=articleRow.get("loginId")%></th>
 			<th><a href="modify?id=<%=articleRow.get("id")%>">수정</a></th>
 			<th><a href="doDelete?id=<%=articleRow.get("id")%>">삭제</a></th>
 		</tr>

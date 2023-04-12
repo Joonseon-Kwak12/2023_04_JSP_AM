@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +24,12 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 		
 		response.setContentType("text/html; charset=UTF-8");
 		
+		if (request.getSession().getAttribute("loginedMemberId") == null) {
+			response.getWriter()
+			.append(String.format("<script>alert('로그인 후 이용 가능합니다.'); location.replace('list');</script>"));
+			return; // return 없으면 경고창도 안 뜸
+		}
+		
 		//DB 연결
 		Connection conn = null;
 		
@@ -37,11 +44,21 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
-			response.getWriter().append("Success!!");
-
 			int id = Integer.parseInt(request.getParameter("id"));
+			
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("WHERE id = ? ;", id);
 
-			SecSql sql = SecSql.from("DELETE");
+			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+			
+			if ((int)request.getSession().getAttribute("loginedMemberId") != (int)articleRow.get("memberId")) {
+				response.getWriter()
+				.append(String.format("<script>alert('작성자만 삭제할 수 있습니다.'); location.replace('list');</script>"));
+				return;
+			}
+
+			sql = SecSql.from("DELETE");
 			sql.append("FROM article");
 			sql.append("WHERE id = ?;", id);
 

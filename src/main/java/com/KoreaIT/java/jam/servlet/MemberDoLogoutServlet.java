@@ -33,6 +33,7 @@ public class MemberDoLogoutServlet extends HttpServlet {
 		
 		response.getWriter()
 		.append(String.format("<script>alert('로그아웃 되었습니다.'); location.replace('../home/main');</script>"));
+		System.out.println("logoutMemberId: " + request.getSession().getAttribute("loginedMemberId"));
 	}
 			
 
