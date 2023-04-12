@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-boolean isLogined = (boolean) request.getAttribute("isLogined");
-int loginedMemberId = (int) request.getAttribute("loginedMemberId"); // request가 아니라 session에서 가져오면 에러
-%>
     
 <!DOCTYPE html>
 <html>
@@ -12,31 +8,8 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId"); // request�
 <title>메인 페이지</title>
 </head>
 <body>
+	<%@ include file="../part/topbar.jspf" %>
 	<h1>MAIN</h1>
-	<%
-	if (isLogined) {
-	%>
-	<div>
-		<%=loginedMemberId %>번 회원 로그인 중 // 
-		<a href="../member/doLogout">로그아웃</a>
-	</div>
-	<%
-	}
-	%>
-	
-	<%
-	if (!isLogined) {
-	%>
-	<div>
-		<a href="../member/login">로그인</a>
-	</div>
-	<%
-	}
-	%>
 
-	<ul>
-		<li><a href="../article/list">게시물 리스트</a></li>
-		<li><a href="../member/join">회원 가입</a></li>
-	</ul>
 </body>
 </html>

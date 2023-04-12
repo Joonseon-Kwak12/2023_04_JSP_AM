@@ -11,26 +11,42 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.exception.SQLErrorException;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/article/modify")
-public class ArticleModifyServlet extends HttpServlet {
-	@Override
+/**
+ * Servlet implementation class DispatcherServlet
+ */
+@WebServlet("/s/*")
+public class DispatcherServlet extends HttpServlet {
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html; charset=UTF-8");
 		
-		HttpSession session = request.getSession();
-		if (session.getAttribute("loginedMemberId") == null) {
-			response.getWriter()
-			.append(String.format("<script>alert('로그인 후 이용 가능합니다.'); location.replace('list');</script>"));
-			return; // return 없으면 경고창도 안 뜸
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
+		String requestURI = request.getRequestURI();
+		
+		System.out.println(requestURI);
+		
+		String[] requestURIBits = requestURI.split("/");
+		// ~~/s/article/list
+		// [0]/[1]/[2]/[3]
+		
+		if (requestURIBits.length < 5) {
+			response.getWriter().append("올바른 요청이 아닙니다.");
+			return;
+		}
+		
+		String controllerName = requestURIBits[3];
+		String actionMethodName = requestURIBits[4];
+		
+		if(controllerName.equals("article")) {
+			ArticleController articleController = new ArticleController();
 		}
 
 		// DB 연결
@@ -43,29 +59,9 @@ public class ArticleModifyServlet extends HttpServlet {
 			System.out.println("프로그램을 종료합니다.");
 			return;
 		}
-		
+
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
-
-			int id = Integer.parseInt(request.getParameter("id"));
-
-			SecSql sql = SecSql.from("SELECT *");
-			sql.append("FROM article");
-			sql.append("WHERE id = ? ;", id);
-
-			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-
-			response.getWriter().append(articleRow.toString());
-
-			request.setAttribute("articleRow", articleRow);
-			
-			if ((int)session.getAttribute("loginedMemberId") != (int)articleRow.get("memberId")) {
-				response.getWriter()
-				.append(String.format("<script>alert('해당 게시글에 대한 권한이 없습니다.'); location.replace('list');</script>"));
-				return;
-			}
-			
-			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,7 +78,6 @@ public class ArticleModifyServlet extends HttpServlet {
 		}
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);

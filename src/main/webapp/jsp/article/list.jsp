@@ -15,12 +15,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 <title>게시물 리스트</title>
 </head>
 <body>
-	<div>
-		<a href="../home/main">메인페이지로 이동</a>
-	</div>
-	<div>
-		<a href="write">글쓰기</a>
-	</div>
+	<%@ include file="../part/topbar.jspf" %>
 
 	<h1>게시물 리스트</h1>
 
@@ -42,7 +37,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<th><%=articleRow.get("id")%></th>
 			<th><%=articleRow.get("regDate")%></th>
 			<th><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></th>
-			<th><%=articleRow.get("loginId")%></th>
+			<th><%=articleRow.get("writer")%></th>
 			<th><a href="modify?id=<%=articleRow.get("id")%>">수정</a></th>
 			<th><a href="doDelete?id=<%=articleRow.get("id")%>">삭제</a></th>
 		</tr>

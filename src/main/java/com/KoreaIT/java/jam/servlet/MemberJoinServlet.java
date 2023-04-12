@@ -14,6 +14,14 @@ public class MemberJoinServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		
+		if (request.getSession().getAttribute("loginedMemberId") != null) {
+			response.getWriter()
+			.append(String.format("<script>alert('로그아웃 후 가능합니다.'); location.replace('../home/main');</script>"));
+			return; // return 없으면 경고창도 안 뜸
+		}
+		
 		request.getRequestDispatcher("/jsp/member/join.jsp").forward(request, response);
 	}
 

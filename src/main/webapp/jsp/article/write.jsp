@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +7,7 @@
 <title>게시물 작성</title>
 </head>
 <body>
-	<div>
-		<a href="../home/main">메인페이지로 이동</a>
-	</div>
+	<%@ include file="../part/topbar.jspf" %>
 
 	<h1>게시물 작성</h1>
 

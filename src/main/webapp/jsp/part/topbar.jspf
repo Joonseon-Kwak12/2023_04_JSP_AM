@@ -1,0 +1,53 @@
+<%@ page import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+session = request.getSession();
+boolean isLogined = (boolean)session.getAttribute("isLogined");
+int loginedMemberId = (int)session.getAttribute("loginedMemberId"); // request가 아니라 session에서 가져오면 에러
+String loginedMemberName = (String)session.getAttribute("loginedMemberName");
+%>
+
+<!-- <!DOCTYPE html> html 파일이 아님
+<html> 
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title> 조각이라서 타이틀이 필요 없음
+</head>
+<body>
+
+</body> 
+</html> 모두 필요 없음 -->
+
+<div>
+
+	<%
+	if (isLogined) {
+	%>
+	<div>
+		<%-- <%=loginedMemberId %>번 회원 로그인 중 // --%>
+		<%=loginedMemberName %>님 로그인 중 ||
+		<a href="../member/doLogout">로그아웃</a>
+	</div>
+	<%
+	}
+	%>
+
+	<%
+	if (!isLogined) {
+	%>
+	<div>
+		<span>로그인이 필요합니다. || </span>
+		<a href="../member/login">로그인</a>
+	</div>
+	<%
+	}
+	%>
+	<div>
+		<a href="../home/main">메인페이지로 이동</a> | 
+		<a href="../article/list">게시물 리스트</a> | 
+		<a href="../article/write">글쓰기</a> | 
+		<a href="../member/join">회원 가입</a>
+	</div>
+
+</div>

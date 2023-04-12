@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.exception.SQLErrorException;
@@ -24,7 +25,8 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 		
 		response.setContentType("text/html; charset=UTF-8");
 		
-		if (request.getSession().getAttribute("loginedMemberId") == null) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("loginedMemberId") == null) {
 			response.getWriter()
 			.append(String.format("<script>alert('로그인 후 이용 가능합니다.'); location.replace('list');</script>"));
 			return; // return 없으면 경고창도 안 뜸
@@ -54,7 +56,7 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 			
 			if ((int)request.getSession().getAttribute("loginedMemberId") != (int)articleRow.get("memberId")) {
 				response.getWriter()
-				.append(String.format("<script>alert('작성자만 삭제할 수 있습니다.'); location.replace('list');</script>"));
+				.append(String.format("<script>alert('해당 게시글에 대한 권한이 없습니다.'); location.replace('list');</script>"));
 				return;
 			}
 

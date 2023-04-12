@@ -61,8 +61,10 @@ public class MemberDoLoginServlet extends HttpServlet {
 			}
 			
 			HttpSession session = request.getSession();
+			session.setAttribute("isLogined", true);
 			session.setAttribute("loginedMemberId", memberRow.get("id"));
 			session.setAttribute("loginedMemberLoginId", memberRow.get("loingId"));
+			session.setAttribute("loginedMemberName", memberRow.get("name"));
 			
 			response.getWriter()
 					.append(String.format("<script>alert('%s님 환영합니다.'); location.replace('../home/main');</script>", loginId));

@@ -41,9 +41,12 @@ public class ArticleDetailServlet extends HttpServlet {
 			int id = Integer.parseInt(request.getParameter("id"));
 //			String sql = "SELECT * FROM article WHERE id = " + id +";";
 //			String sql = String.format("SELECT * FROM article WHERE id = %d", id);
-			SecSql sql = SecSql.from("SELECT *");
-			sql.append("FROM article");
-			sql.append("WHERE id = ?;", id);
+			
+			SecSql sql = SecSql.from("SELECT a.*, m.name AS writer");
+			sql.append("FROM article AS a");
+			sql.append("INNER JOIN `member` AS m");
+			sql.append("ON a.memberId =  m.id");
+			sql.append("WHERE a.id = ?;", id);
 			
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 			
