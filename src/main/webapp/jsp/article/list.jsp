@@ -1,10 +1,10 @@
-<%@ page import="java.util.Map"%>
+<%@page import="com.KoreaIT.java.jam.dto.Article"%>
 <%@ page import="java.util.List"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
+List<Article> articles = (List<Article>) request.getAttribute("articles");
 int cPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
 %>
@@ -31,15 +31,15 @@ int totalPage = (int) request.getAttribute("totalPage");
 		</tr>
 		
 		<%
-		for (Map<String, Object> articleRow : articleRows) {
+		for (Article article : articles) {
 		%>
 		<tr style="text-align: center;">
-			<th><%=articleRow.get("id")%></th>
-			<th><%=articleRow.get("regDate")%></th>
-			<th><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></th>
-			<th><%=articleRow.get("writer")%></th>
-			<th><a href="modify?id=<%=articleRow.get("id")%>">수정</a></th>
-			<th><a href="doDelete?id=<%=articleRow.get("id")%>">삭제</a></th>
+			<th><%=article.id%></th>
+			<th><%=article.regDate%></th>
+			<th><a href="detail?id=<%=article.id%>"><%=article.title%></a></th>
+			<th><%=article.extra__writer%></th>
+			<th><a href="modify?id=<%=article.id%>">수정</a></th>
+			<th><a href="doDelete?id=<%=article.id%>">삭제</a></th>
 		</tr>
 		<%
 		}
